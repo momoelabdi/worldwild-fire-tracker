@@ -1,11 +1,11 @@
-import { Icon } from "@iconify/react";
-import locationIcon from "@iconify/icons-mdi/fire-alert";
+import { Icon } from '@mui/material';
+import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 import React from 'react';
 
-const LocationMarker = ({ onClick }) => {
+const LocationMarker = ({lng, lat, onClick }) => {
   return (
     <div className="location-marker" onClick={onClick}>
-      <Icon icon={locationIcon} className="location-icon" />
+      <Icon icon={LocalFireDepartmentIcon} className="location-icon" />
     </div>
   );
 };
