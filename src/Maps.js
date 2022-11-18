@@ -11,7 +11,6 @@ import { pink } from '@mui/material/colors';
 
 const Maps = ({ eventData }) => {
   let api_key = process.env.REACT_APP_WATER_MAP_API_KEY;
-
   const markers = eventData.map((ev, index) => {
     if (ev.categories[0].id === 8) {
       return (
@@ -24,21 +23,21 @@ const Maps = ({ eventData }) => {
     return null;
   });
 
-  console.log(markers);
-
+console.log(...markers);
   return (
     <Map
       initialViewState={{
-        longitude: -122.4,
-        latitude: 37.8,
-        zoom: 14,
+        longitude: -102.4,
+        latitude: 40.0,
+        zoom: 6,
         projection: 'globe',
       }}
-      style={{ width: 600, height: 400 }}
+      style={{ width: 1200, height: 800 }}
       mapboxAccessToken={api_key}
       mapStyle="mapbox://styles/mapbox/streets-v9"
     >
-      <Marker longitude={-100} latitude={40} anchor="bottom">
+      <Marker longitude={100} latitude={40} anchor="bottom">
+
           <LocalFireDepartmentIcon sx={{ color: pink[500] }}/>
       </Marker>
     </Map>
