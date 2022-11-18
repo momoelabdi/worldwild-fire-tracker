@@ -1,10 +1,8 @@
-
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import Maps from "./Maps";
 import Loader from "./Loader";
 import Header from "./Header";
-
 
 function App() {
   const [eventData, setEventData] = useState([]);
@@ -21,12 +19,10 @@ function App() {
     fetchEvents();
   }, []);
 
-
   return (
     <div className="App">
       <Header />
       {!loading ? <Maps eventData={eventData} /> : <Loader />}
-
     </div>
   );
 }

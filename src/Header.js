@@ -9,8 +9,8 @@ const Header = () => {
 return (
 
     <header className="header">
-<h1><LocalFireDepartmentIcon sx={{ color: pink[500] }}/> World wild fires Tracker (Powred By NASA)
- </h1>  
+<h1><LocalFireDepartmentIcon sx={{ color: pink[500] }}/> World wild Fires Tracker (Powred By NASA)
+ </h1>
 
     </header>
 )
