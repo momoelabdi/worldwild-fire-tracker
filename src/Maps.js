@@ -17,10 +17,10 @@ const Maps = ({ eventData }) => {
   const markers = eventData.map((ev, index) => {
     if (ev.categories[0].id === 8) {
       setSideBarInfo({
-        id: ev.id, 
-        title: ev.title, 
+        id: ev.id,
+        title: ev.title,
         date: ev.geometries[0].date,
-  
+
       })
       return (
         <Marker
@@ -45,18 +45,18 @@ const Maps = ({ eventData }) => {
         </Marker>
       );
 
-    
+
     }
     return null
-   
+
 
   });
 
-  console.log( sideBarInfo);
+  // console.log( sideBarInfo);
 
   return (
     <div>
-      <SideBar infor={sideBarInfo }  />
+      {/* <SideBar infor={sideBarInfo }  /> */}
 
       <div className="map">
         <Map
