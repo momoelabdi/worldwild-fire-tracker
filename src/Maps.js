@@ -6,10 +6,15 @@ import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 import { pink } from "@mui/material/colors";
 import LocationInfoBox from "./LocationInfoBox";
 
+
 const Maps = ({ eventData }) => {
   let api_key = process.env.REACT_APP_WATER_MAP_API_KEY;
 
   const [locationInfo, setLocationInfo] = useState(null);
+  const [isShown, setIsShown] = useState(false);
+
+
+  
 
   const markers = eventData.map((ev, index) => {
     if (ev.categories[0].id === 8) {
@@ -18,10 +23,13 @@ const Maps = ({ eventData }) => {
           longitude={ev.geometries[0].coordinates[0]}
           latitude={ev.geometries[0].coordinates[1]}
           key={index}
-          onClick={() => setLocationInfo({ id: ev.id, title: ev.title })}
           anchor="bottom"
-        >
-          <LocalFireDepartmentIcon sx={{ color: pink[500] }} />
+          // onClick={() =>  setLocationInfo({ id: ev.id, title: ev.title })} 
+          // onMouseLeave={() => null}
+          
+          >
+          <LocalFireDepartmentIcon sx={{ color: pink[500] }} onMouseEnter={() => setIsShown(false) & setLocationInfo({ id: ev.id, title: ev.title })  } 
+          onMouseLeave={() => setIsShown(true)} />
         </Marker>
       );
     }
@@ -41,8 +49,10 @@ const Maps = ({ eventData }) => {
         mapStyle="mapbox://styles/mapbox/streets-v9"
       >
         {markers}
+      
       </Map>
-      {locationInfo && <LocationInfoBox info={locationInfo} />}
+      
+      { !isShown ? locationInfo && <LocationInfoBox info={locationInfo}  /> : isShown }
     </div>
   );
 };
