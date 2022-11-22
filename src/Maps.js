@@ -11,7 +11,6 @@ import { Tooltip } from "@mui/material";
 const Maps = ({ eventData }) => {
   let api_key = process.env.REACT_APP_WATER_MAP_API_KEY;
 
-  const [locationInfo, setLocationInfo] = useState(null);
   
   const markers = eventData.map((ev, index) => {
     if (ev.categories[0].id === 8) {
@@ -33,9 +32,15 @@ const Maps = ({ eventData }) => {
     return null;
   });
 
+  const handleClick = (eventData, e) => {
+    console.log(e.id, eventData);
+  }
+
+//  console.log(markers)
+
   const content = eventData.map((e, i) => {
     return (
-      <ul key={i} className="item">
+      <ul key={i}  onClick={handleClick} className="item">
         <li>
           ID : <strong>{e.id}</strong>
         </li>
@@ -49,20 +54,26 @@ const Maps = ({ eventData }) => {
     );
   });
 
+  //  console.log(markers);
+  //  console.log(content);
+
+
+
+
   return (
     <div>
       <div className="sidebar">
         <h1>SideBar</h1>
-        <div className="listings">{content}</div>
+        <div className="listings" >{content}</div>
       </div>
 
       <div className="map">
         <Map
           initialViewState={{
-            longitude: 55.8187,
-            latitude: 30.4945,
-            zoom: 2,
-            projection: "globe",
+            longitude:  13.3414 ,
+            latitude: 47.3320 ,
+            zoom: 3,
+            // projection: "globe",
           }}
           // style={{ width: 800, height: 800 }}
           mapboxAccessToken={api_key}
