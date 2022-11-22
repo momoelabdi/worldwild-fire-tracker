@@ -12,23 +12,23 @@ const Maps = ({ eventData }) => {
 
   const [locationInfo, setLocationInfo] = useState(null);
   const [isShown, setIsShown] = useState(false);
-  const [sideBarInfo, setSideBarInfo] = useState(() => 200 + 200 );
-
+  const [sideBarInfo, setSideBarInfo] = useState(null);
+  
   const markers = eventData.map((ev, index) => {
     if (ev.categories[0].id === 8) {
-      setSideBarInfo({
-        id: ev.id,
-        title: ev.title,
-        date: ev.geometries[0].date,
-
-      })
+      // setSideBarInfo({
+      //   id: ev.id,
+      //   title: ev.title,
+      //   date: ev.geometries[0].date,
+        
+      // })
       return (
         <Marker
-          longitude={ev.geometries[0].coordinates[0]}
-          latitude={ev.geometries[0].coordinates[1]}
-          key={index}
-          anchor="bottom"
-          // onClick={() =>  setSideBarInfo({ id: ev.id, title: ev.title, date: ev.geometries[0].date})}
+        longitude={ev.geometries[0].coordinates[0]}
+        latitude={ev.geometries[0].coordinates[1]}
+        key={index}
+        anchor="bottom"
+        onClick={() =>  setSideBarInfo({ id: ev.id, title: ev.title, date: ev.geometries[0].date})}
         >
           <LocalFireDepartmentIcon
             sx={{ color: pink[500] }}
@@ -41,7 +41,7 @@ const Maps = ({ eventData }) => {
               })
             }
             onMouseLeave={() => setIsShown(false)}
-          />
+            />
         </Marker>
       );
 
@@ -56,7 +56,7 @@ const Maps = ({ eventData }) => {
 
   return (
     <div>
-      {/* <SideBar infor={sideBarInfo }  /> */}
+      <SideBar infor={sideBarInfo }  />
 
       <div className="map">
         <Map

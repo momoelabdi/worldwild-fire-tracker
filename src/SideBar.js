@@ -4,7 +4,7 @@ const SideBar = ({ onClick, infor }) => {
   return (
     <div className="sidebar">
       <h1>SideBar</h1>
-    {/* 
+    
       <div className="listings">
         <ul>
           <li>
@@ -17,7 +17,7 @@ const SideBar = ({ onClick, infor }) => {
             Date : <strong>{infor.date}</strong>
           </li>
         </ul>
-      </div> */}
+      </div>
     </div>
   );
 };
