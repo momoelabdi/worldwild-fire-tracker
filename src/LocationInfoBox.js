@@ -12,7 +12,7 @@ const LocationInfoBox = ({ info }) => {
           Title : <strong>{info.title}</strong>
         </li>
         <li>
-          Date : <strong>{info.date}</strong>
+          Date : <strong>{info.date.slice(0, 10)}</strong>
         </li>
       </ul>
     </div>
