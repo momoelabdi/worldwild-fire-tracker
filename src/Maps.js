@@ -5,12 +5,11 @@ import { Map, Marker, useMap, MapRef } from "react-map-gl";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 import { pink } from "@mui/material/colors";
 import LocationInfoBox from "./LocationInfoBox";
-import SideBar from "./SideBar";
 
-const Maps = ({ eventData, time }) => {
+const Maps = ({ eventData }) => {
   let api_key = process.env.REACT_APP_WATER_MAP_API_KEY;
 
-  const [locationInfo, setLocationInfo] = useState(null);
+  const [locationInfo, setLocationInfo] = useState();
   const [isShown, setIsShown] = useState(false);
   const wildFires = 8;
   const mapRef = useRef();
@@ -48,21 +47,107 @@ const Maps = ({ eventData, time }) => {
           />
         </Marker>
       );
+
     }
     return null;
   });
 
-  const onSelectCity = useCallback(({ longitude, latitude }) => {
+
+
+
+  const onSelectCity = useCallback(({ eventData }) => {  
     mapRef.current?.flyTo({
-      center: [-75.343, 39.984],
+      center: [13.3414, 47.332],
       zoom: 10,
       duration: 3000,
     });
   }, []);
 
+
+
+
+  
+  const from = eventData.map((i, index) => {
+    const LngLat = i.geometries[0].coordinates;
+    
+    return (<p key={index}>{i.geometries[0].coordinates}</p>)
+  });
+  const to = eventData.map((i, index) => {
+    // let langLat = i.geometries[0].coordinates[1]
+   
+    return (<p key={index}>{i.geometries[0].coordinates}</p>)
+  });
+  
+
+
+function flyToStore() {
+  mapRef.current?.flyTo({
+    center: [from.LngLat],
+    zoom: 10,
+    duration: 3000,
+  });
+
+}
+
+console.log(from.LngLat);
+// const to = locationInfo.map((i, index)=> {
+//   return (<p key={index}>{i.id}</p>)
+// });
+
+
+function buildLocations(eventData) {
+  
+}
+
+
+// console.log(...markers);
+// console.log( ...markers);
+// console.log( ...from);
+// console.log( to);
+
+// const content = eventData.map((e, i) => {
+//   if (e.categories[0].id === wildFires) {
+//     return (
+//       <ul key={i} className="item">
+//           <li>
+//             <Link  onClick={flyToStore}>
+//               {" "}
+//               ID : <strong>{e.id}</strong>
+//             </Link>
+//           </li>
+//           <li>
+//             Title : <strong>{e.title}</strong>
+//           </li>
+//           <li>
+//             Date : <strong>{e.geometries[0].date.slice(0, 10)}</strong>
+//           </li>
+//           <li>
+//             Lat: <strong>{e.geometries[0].coordinates[0]}</strong>
+//           </li>
+//           <li>
+//             Lng: <strong>{e.geometries[0].coordinates[1]}</strong>
+//           </li>
+//         </ul>
+//       );
+//     }
+    
+    // return null;
+  // });
+
+  
+  // console.log(...content);
+  
+  /* { locationInfo && <SideBar  content={locationInfo} />} */
+
   return (
     <div>
-       <SideBar content={locationInfo} />
+      <div className="sidebar">
+        <h1>SideBar</h1>
+      <button onClick={flyToStore} >Finder</button>
+        <div className="listings">
+          {from}
+        </div>
+      </div>
       <div className="map">
         <Map
           ref={mapRef}
@@ -73,9 +158,7 @@ const Maps = ({ eventData, time }) => {
         >
           {markers}
         </Map>
-        {isShown
-          ? <LocationInfoBox info={locationInfo} />
-          : !isShown}
+        {isShown ? from && <LocationInfoBox info={locationInfo} /> : !isShown}
       </div>
     </div>
   );

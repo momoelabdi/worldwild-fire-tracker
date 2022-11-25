@@ -19,6 +19,7 @@ function App() {
     fetchEvents();
   }, []);
 
+
   return (
     <div className="App">
       <Header />
