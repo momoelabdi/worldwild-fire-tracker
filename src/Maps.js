@@ -1,17 +1,29 @@
-import { useState } from "react";
+import { useRef, useState, useCallback } from "react";
 import "./App.css";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { Map, Marker, useMap } from "react-map-gl";
+import { Map, Marker, useMap, MapRef } from "react-map-gl";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 import { pink } from "@mui/material/colors";
 import LocationInfoBox from "./LocationInfoBox";
+import SideBar from "./SideBar";
 
-const Maps = ({ eventData }) => {
+const Maps = ({ eventData, time }) => {
   let api_key = process.env.REACT_APP_WATER_MAP_API_KEY;
 
   const [locationInfo, setLocationInfo] = useState(null);
   const [isShown, setIsShown] = useState(false);
   const wildFires = 8;
+  const mapRef = useRef();
+  const initialViewState = {
+    longitude: 13.3414,
+    latitude: 47.332,
+    zoom: 3,
+    // pitch: 0,
+    // bearing: 0,
+    // duration: 12000, // Animate over 12 seconds
+    // essential: true,
+    // projection: "globe",
+  };
 
   const markers = eventData.map((ev, index) => {
     if (ev.categories[0].id === wildFires) {
@@ -40,63 +52,21 @@ const Maps = ({ eventData }) => {
     return null;
   });
 
-  function NavigateButton() {
-    const {current: map} = useMap();
-    const onClick = () => {
-      map.flyTo({latitude: 13.3414, longitude: 47.332});
-    };
-
-    return <button onClick={onClick}>Go</button>;
-  }
-
-  const content = eventData.map((e, i) => {
-    if (e.categories[0].id === wildFires) {
-      return (
-        <ul key={i} className="item">
-          <li>
-            ID : <strong>{e.id}</strong>
-          </li>
-          <li>
-            Title : <strong>{e.title}</strong>
-          </li>
-          <li>
-            Date : <strong>{e.geometries[0].date.slice(0, 10)}</strong>
-          </li>
-          <li>
-            Lat: <strong>{e.geometries[0].coordinates[0]}</strong>
-          </li>
-          <li>
-            Lng: <strong>{e.geometries[0].coordinates[1]}</strong>
-          </li>
-        </ul>
-      );
-    }
-    return null;
-  });
+  const onSelectCity = useCallback(({ longitude, latitude }) => {
+    mapRef.current?.flyTo({
+      center: [-75.343, 39.984],
+      zoom: 10,
+      duration: 3000,
+    });
+  }, []);
 
   return (
     <div>
-      <div className="sidebar">
-        <h1>SideBar</h1>
-        <NavigateButton />
-        <div className="listings">
-          {content}
-        </div>
-      </div>
-
+       <SideBar content={locationInfo} />
       <div className="map">
-      <Map className="myMap"
-          initialViewState={{
-            longitude: 13.3414,
-            latitude: 47.332,
-            zoom: 3,
-            // pitch: 0,
-            // bearing: 0,
-            // duration: 12000, // Animate over 12 seconds
-            essential: true,
-            // projection: "globe",
-          }}
-          
+        <Map
+          ref={mapRef}
+          initialViewState={initialViewState}
           // style={{ width: 800, height: 800 }}
           mapboxAccessToken={api_key}
           mapStyle="mapbox://styles/mapbox/streets-v9"
@@ -104,7 +74,7 @@ const Maps = ({ eventData }) => {
           {markers}
         </Map>
         {isShown
-          ? locationInfo && <LocationInfoBox info={locationInfo} />
+          ? <LocationInfoBox info={locationInfo} />
           : !isShown}
       </div>
     </div>
