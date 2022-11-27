@@ -8,6 +8,8 @@ import { pink } from "@mui/material/colors";
 import LocationInfoBox from "./LocationInfoBox";
 import { Link } from "react-router-dom";
 
+
+
 const Maps = ({ eventData }) => {
   let api_key = process.env.REACT_APP_WATER_MAP_API_KEY;
 
@@ -15,6 +17,7 @@ const Maps = ({ eventData }) => {
   const [isShown, setIsShown] = useState(false);
   const wildFires = 8;
   const mapRef = useRef();
+
   const initialViewState = {
     longitude: 13.3414,
     latitude: 47.332,
@@ -48,61 +51,49 @@ const Maps = ({ eventData }) => {
               })
             }
             onMouseLeave={() => setIsShown(false)}
-          />
+            />
         </Marker>
       );
     }
     return null;
   });
-
+  
   // console.log(markers[44].props.id);
-
-  markers.forEach((marker) => {
-    for (let i in marker) {
-      // console.log(`${marker.props.id}`)
-    }
-  });
-
-  //  let marki = Object.entries(markers)
-  // console.log(...marki);
-  // const to = markers.map((i, index) => {
-  //   return i.id
-  // },[])
-
-  const from = eventData.map((i, index) => {
-    return i.id;
-  });
-
-  let x = from;
-
-  // console.log(...x);
-
+  
   const onSelectCity = useCallback(({ longitude, latitude }) => {
     mapRef.current?.flyTo({
-      center: [13.3414, 47.332],
+      center: {latitude, longitude},
       zoom: 10,
       duration: 3000,
     });
   }, []);
-
-  function flyToStore(currentFeature) {
+  
+  function flyToFire(coordinates ) {
     mapRef.current?.flyTo({
-      center: currentFeature, //.geometries[0].coordinates,
+      center: {},
       zoom: 10,
       duration: 3000,
     });
   }
 
-  // const to = locationInfo.map((i, index)=> {
-  //   return (<p key={index}>{i.id}</p>)
-  // });
 
+  // markers.forEach((marker) => {
+  //   for (let i in marker) {
+  //     return(`${marker.props.id}`)
+  //   }
+  // })
+  // content.forEach((cont) => {
+  //   for (let ids in cont) {
+  //     return (`${cont.props.children[0].props.children[1].props.children}`)
+  //   } 
+  //   });
+  
+  
   const content = eventData.map((e, i) => {
     if (e.categories[0].id === wildFires) {
       return (
         <ul key={i} className="item">
           <li>
-            {/* { e.id === i.id ? flyToStore(e.id) :  null } */}
             ID : <strong>{e.id}</strong>
           </li>
           <li>
@@ -111,32 +102,40 @@ const Maps = ({ eventData }) => {
           <li>
             Date : <strong>{e.geometries[0].date.slice(0, 10)}</strong>
           </li>
-        </ul>
+        </ul>    
       );
-    }
+    }  
     return null;
-  });
+  });  
+  
+  
+  
+  markers.forEach((marker) => {
+    const from = eventData.map((i, index) => {
+      return i.id;
+    });
+    
+    for (const ids in marker){
+      // console.log(`${marker.props.latitude} ${marker.props.longitude}`);
+      let to = marker.props.id;
+      if(from === to) { onSelectCity(`${marker.props.latitude} ${marker.props.longitude}`)}
+      
+    }})
 
-  let to = content[44].props;
+    
+    //   content.forEach((cont) => {
+      //   for (const ids in cont ) {
+        // let from =  content.props.children[0].props.children[1].props.children  
+        // }})
 
-  console.log(to);
-
-  // console.log(...content);
-
-  content.forEach((cont) => {
-    for (let ids in cont) {
-      // console.log(`${cont.props}`)
-    }
-  });
 
   return (
     <div>
       <div className="sidebar">
         <h1>SideBar</h1>
-        <button onClick={null}>Finder</button>
         <div className="listings">
-          {from}
-          {content}
+          {/* {from} */}
+          <Link onClick={onSelectCity}> {content} </Link>
         </div>
       </div>
       <div className="map">
@@ -149,7 +148,7 @@ const Maps = ({ eventData }) => {
         >
           {markers}
         </Map>
-        {isShown ? from && <LocationInfoBox info={locationInfo} /> : !isShown}
+        {isShown ? locationInfo && <LocationInfoBox info={locationInfo} /> : !isShown}
       </div>
     </div>
   );
