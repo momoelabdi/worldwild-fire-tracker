@@ -6,9 +6,7 @@ import { Map, Marker } from "react-map-gl";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 import { pink } from "@mui/material/colors";
 import LocationInfoBox from "./LocationInfoBox";
-import { Link } from "react-router-dom";
-
-
+import { Link, parsePath } from "react-router-dom";
 
 const Maps = ({ eventData }) => {
   let api_key = process.env.REACT_APP_WATER_MAP_API_KEY;
@@ -51,31 +49,30 @@ const Maps = ({ eventData }) => {
               })
             }
             onMouseLeave={() => setIsShown(false)}
-            />
+          />
         </Marker>
       );
     }
     return null;
   });
-  
+
   // console.log(markers[44].props.id);
-  
-  const onSelectCity = useCallback(({ longitude, latitude }) => {
+
+  const onSelectCity = useCallback(({ latitude, longitude }) => {
     mapRef.current?.flyTo({
-      center: {latitude, longitude},
+      center: { latitude, longitude },
       zoom: 10,
-      duration: 3000,
+      duration: 2000,
     });
   }, []);
-  
-  function flyToFire(coordinates ) {
+
+  function flyToFire(coordinates) {
     mapRef.current?.flyTo({
       center: {},
       zoom: 10,
       duration: 3000,
     });
   }
-
 
   // markers.forEach((marker) => {
   //   for (let i in marker) {
@@ -85,10 +82,9 @@ const Maps = ({ eventData }) => {
   // content.forEach((cont) => {
   //   for (let ids in cont) {
   //     return (`${cont.props.children[0].props.children[1].props.children}`)
-  //   } 
+  //   }
   //   });
-  
-  
+
   const content = eventData.map((e, i) => {
     if (e.categories[0].id === wildFires) {
       return (
@@ -102,32 +98,40 @@ const Maps = ({ eventData }) => {
           <li>
             Date : <strong>{e.geometries[0].date.slice(0, 10)}</strong>
           </li>
-        </ul>    
+        </ul>
       );
-    }  
-    return null;
-  });  
-  
-  
-  
-  markers.forEach((marker) => {
-    const from = eventData.map((i, index) => {
-      return i.id;
-    });
-    
-    for (const ids in marker){
-      // console.log(`${marker.props.latitude} ${marker.props.longitude}`);
-      let to = marker.props.id;
-      if(from === to) { onSelectCity(`${marker.props.latitude} ${marker.props.longitude}`)}
-      
-    }})
+    } else {
+      markers.forEach((marker) => {
+        for (const ids in marker) {
+          if (e.id === marker.props.id) {
+            console.log(ids);
+           return onSelectCity(`${marker.props.latitude} ${marker.props.longitude}`);
+          }
+        }
+      });
+    }return null
+  });
 
-    
-    //   content.forEach((cont) => {
-      //   for (const ids in cont ) {
-        // let from =  content.props.children[0].props.children[1].props.children  
-        // }})
+  // const contents = content.addEventListener('click', (e) => {
+  //   onSelectCity(markers)
+  //   e.stopPropagation();
+  // })
 
+  // markers.forEach((marker) => {
+  //   const from = eventData.map((i, index) => {
+  //     return i.id;
+  //   });
+  //   for (const ids in marker){
+  // console.log(`${marker.props.latitude} ${marker.props.longitude}`);
+  //   let to = marker.props.id;
+  //   if(from === to) {onSelectCity(marker.props.latitude, marker.props.longitude)}
+
+  // }})
+
+  //   content.forEach((cont) => {
+  //   for (const ids in cont ) {
+  // let from =  content.props.children[0].props.children[1].props.children
+  // }})
 
   return (
     <div>
@@ -135,7 +139,8 @@ const Maps = ({ eventData }) => {
         <h1>SideBar</h1>
         <div className="listings">
           {/* {from} */}
-          <Link onClick={onSelectCity}> {content} </Link>
+
+          <Link to={'#'} onClick={() => onSelectCity()}> {content} </Link>
         </div>
       </div>
       <div className="map">
@@ -148,9 +153,12 @@ const Maps = ({ eventData }) => {
         >
           {markers}
         </Map>
-        {isShown ? locationInfo && <LocationInfoBox info={locationInfo} /> : !isShown}
+        {isShown
+          ? locationInfo && <LocationInfoBox info={locationInfo} />
+          : !isShown}
       </div>
     </div>
   );
 };
+
 export default Maps;
