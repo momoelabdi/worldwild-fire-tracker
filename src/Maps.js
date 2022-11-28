@@ -66,9 +66,9 @@ const Maps = ({ eventData }) => {
   //   });
   // }, []);
 
-  function flyToFire(lat, long) {
+  function flyToFire(coordinates) {
     mapRef.current?.flyTo({
-      center: [lat, long],
+      center: coordinates,
       zoom: 5,
       duration: 3000,
     });
@@ -86,6 +86,15 @@ const Maps = ({ eventData }) => {
   //   });
 
   const content = eventData.map((e, i) => {
+
+    markers.forEach((marker) => {
+      for (const ids in marker) {
+        if (e.id === marker.props.id) {
+          flyToFire(marker.props.latitude+' '+ marker.props.longitude);
+        }
+      }
+    });
+
     if (e.categories[0].id === wildFires) {
       return (
         <ul key={i} className="item">
@@ -103,14 +112,6 @@ const Maps = ({ eventData }) => {
           </li>
         </ul>
       );
-    } else {
-      markers.forEach((marker) => {
-        for (const ids in marker) {
-          if (e.id === marker.props.id) {
-            flyToFire(marker.props.latitude, marker.props.longitude);
-          }
-        }
-      });
     }
     return null;
   });
