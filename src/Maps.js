@@ -6,7 +6,7 @@ import { Map, Marker } from "react-map-gl";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 import { pink } from "@mui/material/colors";
 import LocationInfoBox from "./LocationInfoBox";
-import { Link, parsePath } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Maps = ({ eventData }) => {
   let api_key = process.env.REACT_APP_WATER_MAP_API_KEY;
@@ -58,18 +58,18 @@ const Maps = ({ eventData }) => {
 
   // console.log(markers[44].props.id);
 
-  const onSelectCity = useCallback(({ latitude, longitude }) => {
-    mapRef.current?.flyTo({
-      center: { latitude, longitude },
-      zoom: 10,
-      duration: 2000,
-    });
-  }, []);
+  // const onSelectCity = useCallback(({ latitude, longitude }) => {
+  //   mapRef.current?.flyTo({
+  //     center: { latitude, longitude },
+  //     zoom: 10,
+  //     duration: 2000,
+  //   });
+  // }, []);
 
-  function flyToFire(coordinates) {
+  function flyToFire(lat, long) {
     mapRef.current?.flyTo({
-      center: {},
-      zoom: 10,
+      center: [lat, long],
+      zoom: 5,
       duration: 3000,
     });
   }
@@ -90,8 +90,11 @@ const Maps = ({ eventData }) => {
       return (
         <ul key={i} className="item">
           <li>
-            ID : <strong>{e.id}</strong>
+            <Link to={"#"} onClick={() => flyToFire()}>
+              ID :<strong>{e.id}</strong>
+            </Link>
           </li>
+
           <li>
             Title : <strong>{e.title}</strong>
           </li>
@@ -104,12 +107,12 @@ const Maps = ({ eventData }) => {
       markers.forEach((marker) => {
         for (const ids in marker) {
           if (e.id === marker.props.id) {
-            console.log(ids);
-           return onSelectCity(`${marker.props.latitude} ${marker.props.longitude}`);
+            flyToFire(marker.props.latitude, marker.props.longitude);
           }
         }
       });
-    }return null
+    }
+    return null;
   });
 
   // const contents = content.addEventListener('click', (e) => {
@@ -137,11 +140,7 @@ const Maps = ({ eventData }) => {
     <div>
       <div className="sidebar">
         <h1>SideBar</h1>
-        <div className="listings">
-          {/* {from} */}
-
-          <Link to={'#'} onClick={() => onSelectCity()}> {content} </Link>
-        </div>
+        <div className="listings">{content}</div>
       </div>
       <div className="map">
         <Map
