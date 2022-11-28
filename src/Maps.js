@@ -16,16 +16,16 @@ const Maps = ({ eventData }) => {
   const wildFires = 8;
   const mapRef = useRef();
 
-  const initialViewState = {
-    longitude: 13.3414,
-    latitude: 47.332,
-    zoom: 3,
+  // const initialViewState = {
+  //   longitude: 13.3414,
+  //   latitude: 47.332,
+  //   zoom: 3,
     // pitch: 0,
     // bearing: 0,
     // duration: 12000, // Animate over 12 seconds
     // essential: true,
     // projection: "globe",
-  };
+  // };
 
   const markers = eventData.map((ev, index) => {
     if (ev.categories[0].id === wildFires) {
@@ -40,15 +40,15 @@ const Maps = ({ eventData }) => {
         >
           <LocalFireDepartmentIcon
             sx={{ color: pink[500] }}
-            onMouseEnter={() =>
-              setIsShown(true) &
-              setLocationInfo({
-                id: ev.id,
-                title: ev.title,
-                date: ev.geometries[0].date,
-              })
-            }
-            onMouseLeave={() => setIsShown(false)}
+            // onMouseEnter={() =>
+            //   setIsShown(true) &
+            //   setLocationInfo({
+            //     id: ev.id,
+            //     title: ev.title,
+            //     date: ev.geometries[0].date,
+            //   })
+            // }
+            // onMouseLeave={() => setIsShown(false)}
           />
         </Marker>
       );
@@ -61,18 +61,12 @@ const Maps = ({ eventData }) => {
   // const onSelectCity = useCallback(({ latitude, longitude }) => {
   //   mapRef.current?.flyTo({
   //     center: { latitude, longitude },
-  //     zoom: 10,
+  //     zoom: 5,
   //     duration: 2000,
   //   });
   // }, []);
 
-  function flyToFire(coordinates) {
-    mapRef.current?.flyTo({
-      center: coordinates,
-      zoom: 5,
-      duration: 3000,
-    });
-  }
+  
 
   // markers.forEach((marker) => {
   //   for (let i in marker) {
@@ -85,22 +79,33 @@ const Maps = ({ eventData }) => {
   //   }
   //   });
 
-  const content = eventData.map((e, i) => {
 
+  function flyToFire(lat, lng) {
+    mapRef.current?.flyTo({
+      center: lat, lng,
+      zoom: 5,
+      duration: 3000,
+    });
+  }
+  
+  const content = eventData.map((e, i) => {
+    
+    
     markers.forEach((marker) => {
       for (const ids in marker) {
         if (e.id === marker.props.id) {
-          flyToFire(marker.props.latitude+' '+ marker.props.longitude);
+          flyToFire(marker.props.latitude, marker.props.longitude);
         }
       }
     });
 
+    
     if (e.categories[0].id === wildFires) {
       return (
         <ul key={i} className="item">
           <li>
             <Link to={"#"} onClick={() => flyToFire()}>
-              ID :<strong>{e.id}</strong>
+              ID :<strong> {e.id}</strong>
             </Link>
           </li>
 
@@ -115,12 +120,12 @@ const Maps = ({ eventData }) => {
     }
     return null;
   });
+  
 
-  // const contents = content.addEventListener('click', (e) => {
-  //   onSelectCity(markers)
-  //   e.stopPropagation();
-  // })
 
+  
+  
+  
   // markers.forEach((marker) => {
   //   const from = eventData.map((i, index) => {
   //     return i.id;
@@ -146,16 +151,20 @@ const Maps = ({ eventData }) => {
       <div className="map">
         <Map
           ref={mapRef}
-          initialViewState={initialViewState}
+          initialViewState={{
+            longitude: 13.3414,
+            latitude: 47.332,
+            zoom: 3,
+          }}
           // style={{ width: 800, height: 800 }}
           mapboxAccessToken={api_key}
           mapStyle="mapbox://styles/mapbox/streets-v9"
         >
           {markers}
         </Map>
-        {isShown
+        {/* {isShown
           ? locationInfo && <LocationInfoBox info={locationInfo} />
-          : !isShown}
+          : !isShown} */}
       </div>
     </div>
   );
