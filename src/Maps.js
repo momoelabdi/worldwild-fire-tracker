@@ -64,11 +64,11 @@ const Maps = ({ eventData }) => {
   //   });
   // }, []);
 
-  function flyToFire([lng, lat]) {
+  function flyToFire(lng, lat) {
     mapRef.current?.flyTo({
       center: [lng, lat],
-      zoom: 5,
-      duration: 3000,
+      zoom: 10,
+      duration: 300,
     });
   }
 
@@ -76,8 +76,9 @@ const Maps = ({ eventData }) => {
     markers.forEach((marker) => {
       for (const ids in marker) {
         if (e.id === marker.props.id) {
-          flyToFire([marker.props.longitude, marker.props.latitude]);
+          flyToFire(marker.props.longitude, marker.props.latitude);
         }
+        return null;
       }
     });
 
