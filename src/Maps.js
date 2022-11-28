@@ -1,5 +1,5 @@
 import React from "react";
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState } from "react";
 import "./App.css";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { Map, Marker } from "react-map-gl";
@@ -15,21 +15,21 @@ const Maps = ({ eventData }) => {
   const [isShown, setIsShown] = useState(false);
   const wildFires = 8;
   const mapRef = useRef();
+  // const [lngLat,  setLngLat] = useState([])
 
-  // const initialViewState = {
-  //   longitude: 13.3414,
-  //   latitude: 47.332,
-  //   zoom: 3,
+  const initialViewState = {
+    longitude: 13.3414,
+    latitude: 47.332,
+    zoom: 3,
     // pitch: 0,
     // bearing: 0,
     // duration: 12000, // Animate over 12 seconds
     // essential: true,
     // projection: "globe",
-  // };
+  };
 
   const markers = eventData.map((ev, index) => {
     if (ev.categories[0].id === wildFires) {
-      // console.info(ev.id);
       return (
         <Marker
           id={ev.id}
@@ -40,23 +40,21 @@ const Maps = ({ eventData }) => {
         >
           <LocalFireDepartmentIcon
             sx={{ color: pink[500] }}
-            // onMouseEnter={() =>
-            //   setIsShown(true) &
-            //   setLocationInfo({
-            //     id: ev.id,
-            //     title: ev.title,
-            //     date: ev.geometries[0].date,
-            //   })
-            // }
-            // onMouseLeave={() => setIsShown(false)}
+            onMouseEnter={() =>
+              setIsShown(true) &
+              setLocationInfo({
+                id: ev.id,
+                title: ev.title,
+                date: ev.geometries[0].date,
+              })
+            }
+            onMouseLeave={() => setIsShown(false)}
           />
         </Marker>
       );
     }
     return null;
   });
-
-  // console.log(markers[44].props.id);
 
   // const onSelectCity = useCallback(({ latitude, longitude }) => {
   //   mapRef.current?.flyTo({
@@ -66,40 +64,23 @@ const Maps = ({ eventData }) => {
   //   });
   // }, []);
 
-  
-
-  // markers.forEach((marker) => {
-  //   for (let i in marker) {
-  //     return(`${marker.props.id}`)
-  //   }
-  // })
-  // content.forEach((cont) => {
-  //   for (let ids in cont) {
-  //     return (`${cont.props.children[0].props.children[1].props.children}`)
-  //   }
-  //   });
-
-
-  function flyToFire(lat, lng) {
+  function flyToFire([lng, lat]) {
     mapRef.current?.flyTo({
-      center: lat, lng,
+      center: [lng, lat],
       zoom: 5,
       duration: 3000,
     });
   }
-  
+
   const content = eventData.map((e, i) => {
-    
-    
     markers.forEach((marker) => {
       for (const ids in marker) {
         if (e.id === marker.props.id) {
-          flyToFire(marker.props.latitude, marker.props.longitude);
+          flyToFire([marker.props.longitude, marker.props.latitude]);
         }
       }
     });
 
-    
     if (e.categories[0].id === wildFires) {
       return (
         <ul key={i} className="item">
@@ -120,27 +101,6 @@ const Maps = ({ eventData }) => {
     }
     return null;
   });
-  
-
-
-  
-  
-  
-  // markers.forEach((marker) => {
-  //   const from = eventData.map((i, index) => {
-  //     return i.id;
-  //   });
-  //   for (const ids in marker){
-  // console.log(`${marker.props.latitude} ${marker.props.longitude}`);
-  //   let to = marker.props.id;
-  //   if(from === to) {onSelectCity(marker.props.latitude, marker.props.longitude)}
-
-  // }})
-
-  //   content.forEach((cont) => {
-  //   for (const ids in cont ) {
-  // let from =  content.props.children[0].props.children[1].props.children
-  // }})
 
   return (
     <div>
@@ -151,20 +111,16 @@ const Maps = ({ eventData }) => {
       <div className="map">
         <Map
           ref={mapRef}
-          initialViewState={{
-            longitude: 13.3414,
-            latitude: 47.332,
-            zoom: 3,
-          }}
+          initialViewState={initialViewState}
           // style={{ width: 800, height: 800 }}
           mapboxAccessToken={api_key}
           mapStyle="mapbox://styles/mapbox/streets-v9"
         >
           {markers}
         </Map>
-        {/* {isShown
+        {isShown
           ? locationInfo && <LocationInfoBox info={locationInfo} />
-          : !isShown} */}
+          : !isShown}
       </div>
     </div>
   );
