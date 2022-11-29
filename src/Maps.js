@@ -58,13 +58,13 @@ const Maps = ({ eventData }) => {
 
   // const onSelectCity = useCallback(({ latitude, longitude }) => {
   //   mapRef.current?.flyTo({
-  //     center: { latitude, longitude },
+  //     center:  [latitude, longitude],
   //     zoom: 5,
   //     duration: 2000,
   //   });
   // }, []);
 
-  function flyToFire([lng, lat]) {
+  function flyToFire(lng, lat) {
     mapRef.current?.flyTo({
       center: [lng, lat],
       zoom: 5,
@@ -72,20 +72,30 @@ const Maps = ({ eventData }) => {
     });
   }
 
+  const onClick = () => {
+    mapRef.current?.flyTo({ center: [-122.4, 37.8], zoom: 5, duration: 3000 });
+  };
+
   const content = eventData.map((e, i) => {
-    markers.forEach((marker) => {
-      for (const ids in marker) {
-        if (e.id === marker.props.id) {
-          flyToFire([marker.props.longitude, marker.props.latitude]);
-        }
-      }
-    });
+    // markers.forEach((marker) => {
+    //   for (const ids in marker) {
+    //     switch (e.id === marker.props.id) {
+    //       case e.id === marker.props.id:
+    //         onClick(marker.props.longitude + "," + marker.props.latitude);
+    //         break;
+    //       case e.id !== marker.props.id:
+    //         return null;
+    //       default:
+    //         console.log("null");
+    //     }
+    //   }
+    // });
 
     if (e.categories[0].id === wildFires) {
       return (
         <ul key={i} className="item">
           <li>
-            <Link to={"#"} onClick={() => flyToFire()}>
+            <Link to={"#"} onClick={onClick}>
               ID :<strong> {e.id}</strong>
             </Link>
           </li>
