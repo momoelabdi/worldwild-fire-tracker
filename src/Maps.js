@@ -59,19 +59,12 @@ const Maps = ({ eventData }) => {
 
   // const onSelectCity = useCallback(({ latitude, longitude }) => {
   //   mapRef.current?.flyTo({
-  //     center: { latitude, longitude },
+  //     center:  [latitude, longitude],
   //     zoom: 5,
   //     duration: 2000,
   //   });
   // }, []);
 
-  // function flyToFire(lng, lat) {
-  //   mapRef.current?.flyTo({
-  //     center: [lng, lat],
-  //     zoom: 10,
-  //     duration: 300,
-  //   });
-  // }
 
   // markers.forEach((marker) => {
   //   for (const ids in marker) {
