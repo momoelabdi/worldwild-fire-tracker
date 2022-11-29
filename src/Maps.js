@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { useRef, useState } from "react";
 import "./App.css";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -6,7 +6,9 @@ import { Map, Marker } from "react-map-gl";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 import { pink } from "@mui/material/colors";
 import LocationInfoBox from "./LocationInfoBox";
-import { Link } from "react-router-dom";
+import SideBar from "./SideBar";
+
+
 
 const Maps = ({ eventData }) => {
   let api_key = process.env.REACT_APP_WATER_MAP_API_KEY;
@@ -15,8 +17,7 @@ const Maps = ({ eventData }) => {
   const [isShown, setIsShown] = useState(false);
   const wildFires = 8;
   const mapRef = useRef();
-  // const [lngLat,  setLngLat] = useState([])
-
+  
   const initialViewState = {
     longitude: 13.3414,
     latitude: 47.332,
@@ -64,60 +65,21 @@ const Maps = ({ eventData }) => {
   //   });
   // }, []);
 
-  function flyToFire(lng, lat) {
-    mapRef.current?.flyTo({
-      center: [lng, lat],
-      zoom: 5,
-      duration: 3000,
-    });
-  }
 
-  const onClick = () => {
-    mapRef.current?.flyTo({ center: [-122.4, 37.8], zoom: 5, duration: 3000 });
-  };
-
-  const content = eventData.map((e, i) => {
-    // markers.forEach((marker) => {
-    //   for (const ids in marker) {
-    //     switch (e.id === marker.props.id) {
-    //       case e.id === marker.props.id:
-    //         onClick(marker.props.longitude + "," + marker.props.latitude);
-    //         break;
-    //       case e.id !== marker.props.id:
-    //         return null;
-    //       default:
-    //         console.log("null");
-    //     }
-    //   }
-    // });
-
-    if (e.categories[0].id === wildFires) {
-      return (
-        <ul key={i} className="item">
-          <li>
-            <Link to={"#"} onClick={onClick}>
-              ID :<strong> {e.id}</strong>
-            </Link>
-          </li>
-
-          <li>
-            Title : <strong>{e.title}</strong>
-          </li>
-          <li>
-            Date : <strong>{e.geometries[0].date.slice(0, 10)}</strong>
-          </li>
-        </ul>
-      );
-    }
-    return null;
-  });
+  // markers.forEach((marker) => {
+  //   for (const ids in marker) {
+      
+  //     if (e.id === marker.props.id) {
+  //       return (marker.props.longitude, marker.props.latitude)
+  //     }
+  //     return null;
+  //   }
+  // });
+  
 
   return (
     <div>
-      <div className="sidebar">
-        <h1>SideBar</h1>
-        <div className="listings">{content}</div>
-      </div>
+     <SideBar  eventData={eventData}/>    
       <div className="map">
         <Map
           ref={mapRef}
