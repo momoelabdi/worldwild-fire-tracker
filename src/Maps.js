@@ -6,18 +6,16 @@ import { Map, Marker } from "react-map-gl";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 import { pink } from "@mui/material/colors";
 import LocationInfoBox from "./LocationInfoBox";
-import SideBar from "./SideBar";
-
-
+// import SideBar from "./SideBar";
+import { Link } from "react-router-dom";
 
 const Maps = ({ eventData }) => {
   let api_key = process.env.REACT_APP_WATER_MAP_API_KEY;
-
   const [locationInfo, setLocationInfo] = useState();
   const [isShown, setIsShown] = useState(false);
   const wildFires = 8;
   const mapRef = useRef();
-  
+
   const initialViewState = {
     longitude: 13.3414,
     latitude: 47.332,
@@ -33,11 +31,10 @@ const Maps = ({ eventData }) => {
     if (ev.categories[0].id === wildFires) {
       return (
         <Marker
+          key={index}
           id={ev.id}
           longitude={ev.geometries[0].coordinates[0]}
           latitude={ev.geometries[0].coordinates[1]}
-          key={index}
-          anchor="bottom"
         >
           <LocalFireDepartmentIcon
             sx={{ color: pink[500] }}
@@ -55,6 +52,40 @@ const Maps = ({ eventData }) => {
       );
     }
     return null;
+  });
+
+
+  function flyToFire(lng, lat) {
+    mapRef.current?.flyTo({
+      center: [lng, lat],
+      zoom: 10,
+      duration: 3000,
+    });
+  }
+
+  const later = markers.forEach((marker, i) => {
+    for (const ids in marker) {
+      return (
+        <ul key={i} className="item">
+          <li>
+            <Link
+              to={"#"}
+              onClick={() =>
+                flyToFire(
+                  `${marker.props.longitude}`,
+                  `${marker.props.latitude}`
+                )
+              }
+            >
+              ID :<sstong>{marker.props.id}</sstong>
+            </Link>
+          </li>
+          <li>
+            Title : <strong>{marker.props.title}</strong>
+          </li>
+        </ul>
+      );
+    }
   });
 
   // const onSelectCity = useCallback(({ latitude, longitude }) => {
@@ -79,7 +110,10 @@ const Maps = ({ eventData }) => {
 
   return (
     <div>
-     <SideBar  eventData={eventData}/>    
+      <div className="sidebar">
+        <h1>SideBar</h1>
+        <div className="listings">{later}</div>
+      </div>
       <div className="map">
         <Map
           ref={mapRef}
