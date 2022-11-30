@@ -54,6 +54,7 @@ const Maps = ({ eventData }) => {
     return null;
   });
 
+
   function flyToFire(lng, lat) {
     mapRef.current?.flyTo({
       center: [lng, lat],
@@ -86,6 +87,26 @@ const Maps = ({ eventData }) => {
       );
     }
   });
+
+  // const onSelectCity = useCallback(({ latitude, longitude }) => {
+  //   mapRef.current?.flyTo({
+  //     center:  [latitude, longitude],
+  //     zoom: 5,
+  //     duration: 2000,
+  //   });
+  // }, []);
+
+
+  // markers.forEach((marker) => {
+  //   for (const ids in marker) {
+      
+  //     if (e.id === marker.props.id) {
+  //       return (marker.props.longitude, marker.props.latitude)
+  //     }
+  //     return null;
+  //   }
+  // });
+  
 
   return (
     <div>
