@@ -3,6 +3,7 @@ import "./App.css";
 import Maps from "./Maps";
 import Loader from "./Loader";
 import Header from "./Header";
+import Footer from "./Footer";
 
 function App() {
   const [eventData, setEventData] = useState([]);
@@ -24,6 +25,7 @@ function App() {
     <div className="App">
       <Header />
       {!loading ? <Maps eventData={eventData} /> : <Loader />}
+      <Footer />
     </div>
   );
 }
