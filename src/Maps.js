@@ -64,7 +64,7 @@ const Maps = ({ eventData }) => {
   }
   let fires = Object.values(markers);
   return (
-    <div>
+    <div className="container">
       <div className="sidebar">
         <h1>Fire Locations </h1>
         <div className="listings">
@@ -86,11 +86,14 @@ const Maps = ({ eventData }) => {
                     </Link>
                   </li>
                   <li>
-                     <strong>{elements.props.date.slice(0, 10)}</strong>
+                    <strong>{elements.props.date.slice(0, 10)}</strong>
                   </li>
                 </ul>
               );
-            } return null;
+            } else if (!elements) {
+              return null;
+            }
+            return null;
           })}
         </div>
       </div>
@@ -108,6 +111,7 @@ const Maps = ({ eventData }) => {
           ? locationInfo && <LocationInfoBox info={locationInfo} />
           : !isShown}
       </div>
+
     </div>
   );
 };
