@@ -12,7 +12,6 @@
 .listings .item   {
   border-bottom: 1px solid #eee;
   padding: 10px;
-
 }
 
 
@@ -76,6 +75,7 @@ a {
 
 a:hover {
   color: #e91e63;
+  zoom: 110%;
 }
 
 .loader {
