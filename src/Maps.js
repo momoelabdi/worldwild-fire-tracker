@@ -55,7 +55,6 @@ const Maps = ({ eventData }) => {
     return null;
   });
 
-
   function flyToFire(lng, lat) {
     mapRef.current?.flyTo({
       center: [lng, lat],
@@ -63,39 +62,17 @@ const Maps = ({ eventData }) => {
       duration: 6000,
     });
   }
-
   let fires = Object.values(markers);
-
-  // const onSelectCity = useCallback(({ latitude, longitude }) => {
-  //   mapRef.current?.flyTo({
-  //     center:  [latitude, longitude],
-  //     zoom: 5,
-  //     duration: 2000,
-  //   });
-  // }, []);
-
-
-  // markers.forEach((marker) => {
-  //   for (const ids in marker) {
-      
-  //     if (e.id === marker.props.id) {
-  //       return (marker.props.longitude, marker.props.latitude)
-  //     }
-  //     return null;
-  //   }
-  // });
-  
-
   return (
     <div>
       <div className="sidebar">
-        <h1>SideBar</h1>
+        <h1>Fire Locations </h1>
         <div className="listings">
           {fires.map((elements, i) => {
             if (elements) {
               return (
                 <ul key={i} className="item">
-                  <li>
+                  <li className="title">
                     <Link
                       to={"#"}
                       onClick={() =>
@@ -105,18 +82,15 @@ const Maps = ({ eventData }) => {
                         )
                       }
                     >
-                      ID :<strong>{elements.props.id}</strong>
+                      <strong>{elements.props.title}</strong>
                     </Link>
                   </li>
                   <li>
-                    <strong> Title :{elements.props.title}</strong>
-                  </li>
-                  <li>
-                    Date : <strong>{elements.props.date.slice(0, 10)}</strong>
+                     <strong>{elements.props.date.slice(0, 10)}</strong>
                   </li>
                 </ul>
               );
-            }
+            } return null;
           })}
         </div>
       </div>

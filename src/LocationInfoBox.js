@@ -3,16 +3,13 @@ import React from "react";
 const LocationInfoBox = ({ info }) => {
   return (
     <div className="location-info">
-      <h2> Event Location Info</h2>
+      <h2> Event Infos</h2>
       <ul>
         <li>
-          ID : <strong>{info.id}</strong>
+        <strong>{info.title}</strong>
         </li>
         <li>
-          Title : <strong>{info.title}</strong>
-        </li>
-        <li>
-          Date : <strong>{info.date.slice(0, 10)}</strong>
+          <strong>{info.date.slice(0, 10)}</strong>
         </li>
       </ul>
     </div>
