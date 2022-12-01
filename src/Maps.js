@@ -6,7 +6,6 @@ import { Map, Marker } from "react-map-gl";
 import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 import { pink } from "@mui/material/colors";
 import LocationInfoBox from "./LocationInfoBox";
-// import SideBar from "./SideBar";
 import { Link } from "react-router-dom";
 
 const Maps = ({ eventData }) => {
@@ -33,6 +32,8 @@ const Maps = ({ eventData }) => {
         <Marker
           key={index}
           id={ev.id}
+          title={ev.title}
+          date={ev.geometries[0].date}
           longitude={ev.geometries[0].coordinates[0]}
           latitude={ev.geometries[0].coordinates[1]}
         >
@@ -59,34 +60,11 @@ const Maps = ({ eventData }) => {
     mapRef.current?.flyTo({
       center: [lng, lat],
       zoom: 10,
-      duration: 3000,
+      duration: 6000,
     });
   }
 
-  const later = markers.forEach((marker, i) => {
-    for (const ids in marker) {
-      return (
-        <ul key={i} className="item">
-          <li>
-            <Link
-              to={"#"}
-              onClick={() =>
-                flyToFire(
-                  `${marker.props.longitude}`,
-                  `${marker.props.latitude}`
-                )
-              }
-            >
-              ID :<sstong>{marker.props.id}</sstong>
-            </Link>
-          </li>
-          <li>
-            Title : <strong>{marker.props.title}</strong>
-          </li>
-        </ul>
-      );
-    }
-  });
+  let fires = Object.values(markers);
 
   // const onSelectCity = useCallback(({ latitude, longitude }) => {
   //   mapRef.current?.flyTo({
@@ -112,7 +90,35 @@ const Maps = ({ eventData }) => {
     <div>
       <div className="sidebar">
         <h1>SideBar</h1>
-        <div className="listings">{later}</div>
+        <div className="listings">
+          {fires.map((elements, i) => {
+            if (elements) {
+              return (
+                <ul key={i} className="item">
+                  <li>
+                    <Link
+                      to={"#"}
+                      onClick={() =>
+                        flyToFire(
+                          `${elements.props.longitude}`,
+                          `${elements.props.latitude}`
+                        )
+                      }
+                    >
+                      ID :<strong>{elements.props.id}</strong>
+                    </Link>
+                  </li>
+                  <li>
+                    <strong> Title :{elements.props.title}</strong>
+                  </li>
+                  <li>
+                    Date : <strong>{elements.props.date.slice(0, 10)}</strong>
+                  </li>
+                </ul>
+              );
+            }
+          })}
+        </div>
       </div>
       <div className="map">
         <Map
