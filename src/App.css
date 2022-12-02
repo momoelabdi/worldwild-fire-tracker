@@ -142,10 +142,10 @@ a:hover {
 }
 
 .footer{
-  padding: 10px;
   background-color: rgba(7, 5, 3, 0.987);
   color: #fff;
   position: fixed;
+  padding: 0;
   bottom: 0;
   right: 0;
   left: 0;
