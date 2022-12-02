@@ -1,15 +1,11 @@
 * {
   box-sizing: border-box;
 }
-.container {
-  padding: 30%;
-  margin-bottom: 59%;
-}
 
 .listings {
   height: 100%;
   overflow: auto;
-  padding-bottom: 22%;
+  padding-bottom: 39%;
 }
 
 .listings ul {list-style:none;}
@@ -32,7 +28,7 @@
 ::-webkit-scrollbar-thumb {
   background:  #e91e63;
   border-radius: 0;
-  height: 11.5%;
+  height: 30%;
 }
 
 body {
