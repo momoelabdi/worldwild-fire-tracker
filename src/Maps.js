@@ -19,10 +19,8 @@ const Maps = ({ eventData }) => {
     longitude: 13.3414,
     latitude: 47.332,
     zoom: 3,
-    // pitch: 0,
-    // bearing: 0,
-    // duration: 12000, // Animate over 12 seconds
-    // essential: true,
+    pitch: 0,
+    bearing: 0,
     // projection: "globe",
   };
 
