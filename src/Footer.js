@@ -6,8 +6,8 @@ function Footer() {
   return (
     <div className="footer">
        <h1>
-        <LocalFireDepartmentIcon sx={{ color: pink[500] }} /> World wild Fires
-        Tracker Powred By NASA and mapbox APIS
+        <LocalFireDepartmentIcon sx={{ color: pink[500] }} />
+        Powred By NASA and Mapbox APIS
       </h1>
     </div>
    );

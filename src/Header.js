@@ -7,7 +7,7 @@ const Header = () => {
     <header className="header">
       <h1>
         <LocalFireDepartmentIcon sx={{ color: pink[500] }} /> World wild Fires
-        Tracker (Powred By NASA)
+        Tracker
       </h1>
     </header>
   );
