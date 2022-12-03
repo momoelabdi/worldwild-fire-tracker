@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/worldwild-fire-tracker/static/css/main.f192a42e.css",
-    "main.js": "/worldwild-fire-tracker/static/js/main.4dbad6b5.js",
-    "static/js/483.10c3e491.chunk.js": "/worldwild-fire-tracker/static/js/483.10c3e491.chunk.js",
+    "main.js": "/worldwild-fire-tracker/static/js/main.ffbe66f9.js",
+    "static/js/483.443c6e95.chunk.js": "/worldwild-fire-tracker/static/js/483.443c6e95.chunk.js",
     "static/js/787.0132bfef.chunk.js": "/worldwild-fire-tracker/static/js/787.0132bfef.chunk.js",
     "index.html": "/worldwild-fire-tracker/index.html",
     "main.f192a42e.css.map": "/worldwild-fire-tracker/static/css/main.f192a42e.css.map",
-    "main.4dbad6b5.js.map": "/worldwild-fire-tracker/static/js/main.4dbad6b5.js.map",
-    "483.10c3e491.chunk.js.map": "/worldwild-fire-tracker/static/js/483.10c3e491.chunk.js.map",
+    "main.ffbe66f9.js.map": "/worldwild-fire-tracker/static/js/main.ffbe66f9.js.map",
+    "483.443c6e95.chunk.js.map": "/worldwild-fire-tracker/static/js/483.443c6e95.chunk.js.map",
     "787.0132bfef.chunk.js.map": "/worldwild-fire-tracker/static/js/787.0132bfef.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.f192a42e.css",
-    "static/js/main.4dbad6b5.js"
+    "static/js/main.ffbe66f9.js"
   ]
 }
